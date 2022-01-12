@@ -1,0 +1,13 @@
+[package]
+edition = "2021"
+name = "noname"
+version = "0.1.0"
+
+[dependencies]
+arboard = "2.0.0"
+bevy = "0.5"
+bevy_prototype_lyon = "0.3.1"
+image = "0.23.14"
+leptess = "0.13.0"
+# rust-bert = "0.17.0"
+winit = {version = "0.24.0"}
