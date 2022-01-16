@@ -24,8 +24,5 @@ pub fn get_clipboard_image() -> Option<RgbImage> {
         }
     }
 
-    // TODO: Find the way to read image from the memory
-    image.save("assets/tmp.png").unwrap();
-
     Some(image)
 }

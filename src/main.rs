@@ -3,10 +3,8 @@ mod constants;
 mod systems;
 mod utils;
 
-use bevy::{prelude::*, render::pass::ClearColor};
+use bevy::prelude::*;
 use bevy_prototype_lyon::prelude::*;
-// use rust_bert::pipelines;
-
 use std::process;
 
 use constants::SCALE_FACTOR;
@@ -23,6 +21,9 @@ fn main() {
     };
     let (image_width, image_height) = image.dimensions();
 
+    // TODO: Find the way to read image from the memory
+    image.save("assets/tmp.png").unwrap();
+
     // blur_image(image).unwrap();
 
     let screen_width = (image_width as f32) / SCALE_FACTOR;
@@ -32,17 +33,19 @@ fn main() {
         title: "🙈".to_string(),
         width: screen_width,
         height: screen_height,
+        decorations: false,
+        transparent: true,
         ..Default::default()
     };
 
-    let mut app = App::build();
+    let mut app = App::new();
 
     app.insert_resource(window)
         .insert_resource(ClearColor(Color::rgb(1.0, 1.0, 1.0)))
         .add_plugins(DefaultPlugins)
         .add_plugin(ShapePlugin)
-        .add_startup_system(setup.system())
-        .add_system(mouse.system())
-        .add_system(keyboard.system())
+        .add_startup_system(setup)
+        .add_system(mouse)
+        .add_system(keyboard)
         .run();
 }

@@ -1,3 +1,6 @@
+use bevy::prelude::*;
+
+#[derive(Component)]
 pub struct TextRect {
     pub focused: bool,
     pub pressed: bool,

@@ -6,18 +6,12 @@ use std::path::Path;
 use crate::components::TextRect;
 use crate::constants::{IMAGE_DPI, SCALE_FACTOR};
 
-pub fn setup(
-    mut commands: Commands,
-    asset_server: Res<AssetServer>,
-    windows: Res<Windows>,
-    mut materials: ResMut<Assets<ColorMaterial>>,
-) {
+pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>, windows: Res<Windows>) {
     let window = windows.get_primary().unwrap();
-    let texture_handle = asset_server.load("tmp.png");
 
     commands.spawn_bundle(OrthographicCameraBundle::new_2d());
     commands.spawn_bundle(SpriteBundle {
-        material: materials.add(texture_handle.into()),
+        texture: asset_server.load("tmp.png"),
         transform: Transform::from_scale(Vec3::splat(0.5)),
         ..Default::default()
     });
@@ -35,8 +29,8 @@ pub fn setup(
 
     for bbox in &boxes {
         tess_api.set_rectangle(&bbox);
-        let _text = tess_api.get_utf8_text().unwrap();
-        let _confidence = tess_api.mean_text_conf();
+        let text = tess_api.get_utf8_text().unwrap();
+        let confidence = tess_api.mean_text_conf();
 
         // this is most likely a text line
         let bounding_box = bbox.as_ref();
@@ -45,22 +39,22 @@ pub fn setup(
         let width = (bounding_box.w as f32) / SCALE_FACTOR;
         let height = (bounding_box.h as f32) / SCALE_FACTOR;
 
-        let shape = shapes::Rectangle {
-            width,
-            height,
-            origin: shapes::RectangleOrigin::TopLeft,
-        };
+        // let shape = shapes::Rectangle {
+        //     width,
+        //     height,
+        //     origin: shapes::RectangleOrigin::TopLeft,
+        // };
 
-        commands
-            .spawn_bundle(GeometryBuilder::build_as(
-                &shape,
-                ShapeColors::outlined(Color::NONE, Color::rgb(1.0, 0.07, 0.57)),
-                DrawMode::Outlined {
-                    fill_options: FillOptions::default(),
-                    outline_options: StrokeOptions::default().with_line_width(1.0),
-                },
-                Transform::from_xyz(x, y, 0.0),
-            ))
-            .insert(TextRect::default());
+        // commands
+        //     .spawn_bundle(GeometryBuilder::build_as(
+        //         &shape,
+        //         ShapeColors::outlined(Color::NONE, Color::rgb(1.0, 0.07, 0.57)),
+        //         DrawMode::Outlined {
+        //             fill_options: FillOptions::default(),
+        //             outline_options: StrokeOptions::default().with_line_width(1.0),
+        //         },
+        //         Transform::from_xyz(x, y, 0.0),
+        //     ))
+        //     .insert(TextRect::default());
     }
 }
