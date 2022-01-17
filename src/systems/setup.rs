@@ -39,22 +39,17 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>, windows: Re
         let width = (bounding_box.w as f32) / SCALE_FACTOR;
         let height = (bounding_box.h as f32) / SCALE_FACTOR;
 
-        // let shape = shapes::Rectangle {
-        //     width,
-        //     height,
-        //     origin: shapes::RectangleOrigin::TopLeft,
-        // };
+        let shape = shapes::Rectangle {
+            extents: Vec2::new(width, height),
+            origin: shapes::RectangleOrigin::TopLeft,
+        };
 
-        // commands
-        //     .spawn_bundle(GeometryBuilder::build_as(
-        //         &shape,
-        //         ShapeColors::outlined(Color::NONE, Color::rgb(1.0, 0.07, 0.57)),
-        //         DrawMode::Outlined {
-        //             fill_options: FillOptions::default(),
-        //             outline_options: StrokeOptions::default().with_line_width(1.0),
-        //         },
-        //         Transform::from_xyz(x, y, 0.0),
-        //     ))
-        //     .insert(TextRect::default());
+        commands
+            .spawn_bundle(GeometryBuilder::build_as(
+                &shape,
+                DrawMode::Stroke(StrokeMode::new(Color::rgb(1.0, 0.07, 0.57), 1.0)),
+                Transform::from_xyz(x, y, 0.0),
+            ))
+            .insert(TextRect::default());
     }
 }
