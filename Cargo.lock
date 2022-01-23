@@ -3068,6 +3068,7 @@ dependencies = [
  "bevy_prototype_lyon",
  "image",
  "leptess",
+ "regex",
  "rust-bert",
  "winit 0.24.0",
 ]
