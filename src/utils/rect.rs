@@ -18,7 +18,7 @@ pub fn rect_xy_to_screen_xy(rect_xy: Vec2, window: &Window) -> Vec2 {
 
 pub fn rect_xy_to_screenshot_xy(rect_xy: Vec2, window: &Window) -> Vec2 {
     let x = (rect_xy.x + (window.width() / 2.0)) * SCALE_FACTOR;
-    let y = (rect_xy.y + (window.height() / 2.0)) * SCALE_FACTOR;
+    let y = ((window.height() / 2.0) - rect_xy.y) * SCALE_FACTOR;
 
     Vec2::new(x, y)
 }
