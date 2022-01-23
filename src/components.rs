@@ -15,6 +15,7 @@ impl RectSize {
 #[derive(Component, Debug)]
 pub struct TextRect {
     pub hovered: bool,
+    pub pressed: bool,
     pub selected: bool,
 }
 
@@ -22,6 +23,7 @@ impl Default for TextRect {
     fn default() -> TextRect {
         TextRect {
             hovered: false,
+            pressed: false,
             selected: false,
         }
     }

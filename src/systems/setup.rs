@@ -20,7 +20,6 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>, windows: Re
     });
 
     let mut tess_api = tesseract::TessApi::new(None, "eng").unwrap();
-    // TODO: Use pix_read_mem instead to read image directly from clipboard
     let pix = leptonica::pix_read(Path::new("assets/tmp.png")).unwrap();
 
     tess_api.set_image(&pix);

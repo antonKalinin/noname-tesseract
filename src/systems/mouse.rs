@@ -9,7 +9,6 @@ pub fn mouse(
     mut windows: ResMut<Windows>,
 ) {
     let window = windows.get_primary_mut().unwrap();
-    // for event in mouse_button_input_events.iter() {}
     let cursor_event = cursor_moved_events.iter().next();
 
     for (mut text_rect, transform, size) in query.iter_mut() {
@@ -29,6 +28,11 @@ pub fn mouse(
                 text_rect.hovered = true;
 
                 if mouse_button_input.pressed(MouseButton::Left) {
+                    text_rect.pressed = true;
+                }
+
+                if mouse_button_input.just_released(MouseButton::Left) {
+                    text_rect.pressed = false;
                     text_rect.selected = !text_rect.selected;
                 }
             } else {
