@@ -1,6 +1,3 @@
-use crate::components::{RectSize, TextRect};
-use crate::constants::SCALE_FACTOR;
-use crate::utils;
 use arboard::{Clipboard, ImageData};
 use bevy::{
     input::{keyboard::KeyCode, Input},
@@ -9,6 +6,10 @@ use bevy::{
 use image::{imageops, ImageBuffer, Rgba, RgbaImage};
 use std::process;
 use std::{borrow::Cow, io::Read};
+
+use crate::components::{RectSize, TextRect};
+use crate::constants::SCALE_FACTOR;
+use crate::utils;
 
 pub fn keyboard(
     mut windows: ResMut<Windows>,
@@ -47,11 +48,11 @@ pub fn keyboard(
         }
 
         let mut clipboard = Clipboard::new().unwrap();
-        let image_bytes = image.bytes().map(|b| b.unwrap()).collect::<Vec<u8>>();
+        let _image_bytes = image.bytes().map(|b| b.unwrap()).collect::<Vec<u8>>();
         let clipboard_image = ImageData {
             width: image_width as usize,
             height: image_height as usize,
-            bytes: Cow::from(image_bytes),
+            bytes: Cow::from(image.as_raw()),
         };
         match clipboard.set_image(clipboard_image) {
             Ok(()) => println!("Image is copied back to clipboard 👌"),

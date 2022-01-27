@@ -20,9 +20,6 @@ fn main() {
     };
     let (image_width, image_height) = image.dimensions();
 
-    // TODO: Find the way to read image from the memory
-    image.save("./assets/tmp.png").unwrap();
-
     let screen_width = (image_width as f32) / SCALE_FACTOR;
     let screen_height = (image_height as f32) / SCALE_FACTOR;
 

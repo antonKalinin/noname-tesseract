@@ -1,26 +1,44 @@
 use bevy::prelude::*;
+use bevy::render::texture::ImageType;
 use bevy_prototype_lyon::prelude::*;
+use image::{DynamicImage, ImageOutputFormat, RgbaImage};
 use leptess::{leptonica, tesseract};
 use regex::Regex;
-use std::path::Path;
 use std::process;
 
 use crate::components::{RectSize, TextRect};
 use crate::constants::{IMAGE_DPI, SCALE_FACTOR};
 
-pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>, windows: Res<Windows>) {
+pub fn setup(
+    mut commands: Commands,
+    windows: Res<Windows>,
+    image_res: Res<RgbaImage>,
+    mut image_assets: ResMut<Assets<Image>>,
+) {
     let window = windows.get_primary().unwrap();
     let text_re = Regex::new(r"\w+").unwrap();
 
+    let image = &*image_res;
+    let dyn_image = DynamicImage::ImageRgba8(image.clone());
+
+    let mut buf = Vec::new();
+
+    dyn_image
+        .write_to(&mut buf, ImageOutputFormat::Png)
+        .expect("Unable to write");
+
+    let image = Image::from_buffer(&buf, ImageType::MimeType("image/png")).unwrap();
+    let image_handle = image_assets.add(image);
+
     commands.spawn_bundle(OrthographicCameraBundle::new_2d());
     commands.spawn_bundle(SpriteBundle {
-        texture: asset_server.load("tmp.png"),
+        texture: image_handle,
         transform: Transform::from_scale(Vec3::splat(0.5)),
         ..Default::default()
     });
 
     let mut tess_api = tesseract::TessApi::new(None, "eng").unwrap();
-    let pix = leptonica::pix_read(Path::new("assets/tmp.png")).unwrap();
+    let pix = leptonica::pix_read_mem(&buf).unwrap();
 
     tess_api.set_image(&pix);
     tess_api.set_source_resolution(IMAGE_DPI);
