@@ -40,7 +40,7 @@ pub fn keyboard(
             let height = (size.height * SCALE_FACTOR) as u32;
             let overlay = ImageBuffer::from_pixel(width, height, Rgba([0, 0, 0, 255]));
 
-            // For the future: blur instead of patch
+            // For the future: blur instead of overlay
             // let sub_image = SubImage::new(image, x as u32, y as u32, width, height);
             // let blurred_sub_image = imageops::blur(sub_image, 10.0);
 

@@ -25,7 +25,7 @@ pub fn setup(
 
     dyn_image
         .write_to(&mut buf, ImageOutputFormat::Png)
-        .expect("Unable to write");
+        .expect("Okay, Houston, we've had a problem here: unable to write image to buffer :(");
 
     let image = Image::from_buffer(&buf, ImageType::MimeType("image/png")).unwrap();
     let image_handle = image_assets.add(image);
@@ -51,6 +51,16 @@ pub fn setup(
     }
 
     for bbox in &boxes.unwrap() {
+        let bounding_box = bbox.as_ref();
+        let x = (bounding_box.x as f32) / SCALE_FACTOR - (window.width() / 2.0);
+        let y = (window.height() / 2.0) - (bounding_box.y as f32) / SCALE_FACTOR;
+        let width = (bounding_box.w as f32) / SCALE_FACTOR;
+        let height = (bounding_box.h as f32) / SCALE_FACTOR;
+
+        if width == window.width() || height == window.height() {
+            continue;
+        }
+
         tess_api.set_rectangle(&bbox);
         let text = tess_api.get_utf8_text().unwrap();
         let _confidence = tess_api.mean_text_conf();
@@ -59,12 +69,6 @@ pub fn setup(
         if !text_re.is_match(&text) {
             continue;
         }
-
-        let bounding_box = bbox.as_ref();
-        let x = (bounding_box.x as f32) / SCALE_FACTOR - (window.width() / 2.0);
-        let y = (window.height() / 2.0) - (bounding_box.y as f32) / SCALE_FACTOR;
-        let width = (bounding_box.w as f32) / SCALE_FACTOR;
-        let height = (bounding_box.h as f32) / SCALE_FACTOR;
 
         let rect = shapes::Rectangle {
             extents: Vec2::new(width, height),
