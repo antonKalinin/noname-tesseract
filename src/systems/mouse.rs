@@ -6,9 +6,9 @@ pub fn mouse(
     mouse_button_input: Res<Input<MouseButton>>,
     mut cursor_moved_events: EventReader<CursorMoved>,
     mut query: Query<(&mut TextRect, &Transform, &RectSize)>,
-    mut windows: ResMut<Windows>,
+    windows: Res<Windows>,
 ) {
-    let window = windows.get_primary_mut().unwrap();
+    let window = windows.get_primary().unwrap();
     let cursor_event = cursor_moved_events.iter().next();
 
     for (mut text_rect, transform, size) in query.iter_mut() {

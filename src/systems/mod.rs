@@ -1,9 +1,9 @@
 mod keyboard;
 mod mouse;
 mod setup;
-mod state;
+mod ui;
 
 pub use keyboard::keyboard;
 pub use mouse::mouse;
 pub use setup::setup;
-pub use state::state;
+pub use ui::ui;

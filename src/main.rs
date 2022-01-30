@@ -8,7 +8,7 @@ use bevy_prototype_lyon::prelude::*;
 use std::process;
 
 use constants::SCALE_FACTOR;
-use systems::{keyboard, mouse, setup, state};
+use systems::{keyboard, mouse, setup, ui};
 
 fn main() {
     let image = match utils::get_clipboard_image() {
@@ -40,8 +40,8 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_plugin(ShapePlugin)
         .add_startup_system(setup)
-        .add_system(mouse)
-        .add_system(state)
         .add_system(keyboard)
+        .add_system(mouse)
+        .add_system(ui)
         .run();
 }
