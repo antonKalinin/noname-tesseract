@@ -8,9 +8,10 @@
 
 MVP
 
-### TODOs
+### ToDos
 
-- [ ] Providing help via --help or -h flag
-- [ ] Scrolling for full screen screenshots
-- [ ] Packaging and installation instructions
-- [ ] Entity name recognition with BERT via --suggest or -s flag
+[ ] Resolve platform specific scale factor
+[ ] Providing help via --help or -h flag
+[ ] Scrolling for full screen screenshots
+[ ] Packaging and installation instructions
+[ ] Entity name recognition with BERT via --suggest or -s flag
