@@ -1,0 +1,34 @@
+name: Create Release
+on:
+  push:
+    tags:
+      - "v*"
+jobs:
+  release:
+    name: Create Release
+    runs-on: [self-hosted, build-cluster, global-pool]
+    steps:
+      - name: Clean Workspace
+        uses: AutoModality/action-clean@d004b47eb728f2a83316fc70ba9a62ef97278013 # v1.1.0
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # need all tags
+      - name: Generate changelog # run changelog script, then escape new lines
+        id: changelog
+        run: |
+          CHANGELOG="$(git log --first-parent $(git describe --abbrev=0)..HEAD --pretty=format:"% -%d %s %b (%cr by %an)" | perl -pe "s/Merge pull request (#\S+) from \S+/PR \$1/g")"
+          CHANGELOG="${CHANGELOG//'%'/'%25'}"
+          CHANGELOG="${CHANGELOG//$'\n'/'%0A'}"
+          CHANGELOG="${CHANGELOG//$'\r'/'%0D'}"
+          echo "::set-output name=CHANGELOG::$CHANGELOG"
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          body: ${{ steps.changelog.outputs.CHANGELOG }}
+          draft: true
+          release_name: ${{ github.ref }}
+          tag_name: ${{ github.ref }}
