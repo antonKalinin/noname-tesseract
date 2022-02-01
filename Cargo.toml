@@ -1,9 +1,9 @@
 [package]
 description = "noname is a CLI tool that makes it easy to remove PII from screenshots"
 edition = "2021"
-license = "Apache-2.0"
 license-file = "LICENSE"
 name = "noname"
+repository = "https://github.com/antonKalinin/noname/"
 version = "0.1.0"
 
 [dependencies]
@@ -21,4 +21,5 @@ resolver = "2"
 
 [package.meta.release]
 publish = "false"
+release = "false"
 verify = "false"
