@@ -15,3 +15,6 @@ winit = {version = "0.24.0"}
 
 [workspace]
 resolver = "2"
+
+[package.meta.release]
+publish = "false"
