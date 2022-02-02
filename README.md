@@ -21,6 +21,5 @@ MVP
 To create production release:
 
 1. Run `git checkout master && git pull`.
-1. Run `yarn version`.
-1. Run `git push --follow-tags`. [create-release.yaml](.github/workflows/create-release.yaml) will create a new GitHub release draft with information about new PRs in the description.
-1. Go to https://github.com/creditornot/liveops-events/releases and publish the newly created draft release.
+1. Run `cargo release --execute patch`. [create-release.yaml](.github/workflows/create-release.yaml) will create a new GitHub release draft with information about new PRs in the description.
+1. Go to https://github.com/antonKalinin/noname/releases and publish the newly created draft release.
