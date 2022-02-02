@@ -20,5 +20,3 @@ winit = {version = "0.24.0"}
 resolver = "2"
 
 [package.meta.release]
-release = false
-verify = false
