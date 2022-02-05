@@ -18,7 +18,6 @@ jobs:
           export LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
           export CPPFLAGS="-I/usr/local/opt/llvm/include"
           source /Users/runner/.bash_profile
-          sudo xcode-select -r
       - name: Check Clang Version
         run: |
           clang --version

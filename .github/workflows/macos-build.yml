@@ -7,17 +7,19 @@ on:
 jobs:
   release:
     name: MacOS build
-    runs-on: macos-10.15
+    runs-on: macos-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Try to switch to brew llvm
+        run: |
+          echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> /Users/runner/.bash_profile
+          export LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
+          export CPPFLAGS="-I/usr/local/opt/llvm/include"
+          source /Users/runner/.bash_profile
       - name: Install tesseract and leptonica
         run: |
-          brew install llvm
-          brew install leptonica
-          brew tap-new $USER/local-tesseract
-          brew extract --version=4.1.3 tesseract $USER/local-tesseract
-          brew install tesseract@4.1.3
+          brew install tesseract leptonica
       - name: Build
         uses: actions-rs/cargo@v1
         with:
