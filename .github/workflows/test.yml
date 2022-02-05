@@ -15,6 +15,11 @@ jobs:
       - name: Install llvm
         run: |
           brew reinstall llvm
+      - name: Make llvm prior
+        run: |
+          echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> /Users/runner/.bash_profile
+          export LDFLAGS="-L/usr/local/opt/llvm/lib"
+          export CPPFLAGS="-I/usr/local/opt/llvm/include"
       - name: Check Clang Version
         run: |
           clang --version
