@@ -9,13 +9,13 @@ jobs:
     name: Test
     runs-on: macos-10.15
     steps:
-      - name: Check CLang Version
+      - name: Check Clang Version
         run: |
           clang --version
       - name: Install llvm
         run: |
-          brew install llvm
-      - name: Check CLang Version
+          brew reinstall llvm
+      - name: Check Clang Version
         run: |
           clang --version
 
