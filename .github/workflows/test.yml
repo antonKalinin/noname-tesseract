@@ -12,16 +12,14 @@ jobs:
       - name: Check Clang Version
         run: |
           clang --version
-      - name: Install llvm
-        run: |
-          brew reinstall llvm
-      - name: Make llvm prior
+      - name: Switch to llvm clang
         run: |
           echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> /Users/runner/.bash_profile
           export LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
           export CPPFLAGS="-I/usr/local/opt/llvm/include"
           source /Users/runner/.bash_profile
           rm -rf /Applications/Xcode_13.2.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+          rm -rf /Library/Developer/CommandLineTools/usr/bin
       - name: Check Clang Version
         run: |
           clang --version
