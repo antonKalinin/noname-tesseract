@@ -21,4 +21,7 @@ jobs:
       - name: Check Clang Version
         run: |
           clang --version
+      - name: Check Homebrew Clang Version
+        run: |
+          $(brew --prefix llvm)/bin/clang --version
 
