@@ -17,9 +17,10 @@ jobs:
       - name: Build
         run: |
           PATH="/usr/local/opt/llvm/bin:$PATH" BINDGEN_EXTRA_CLANG_ARGS='-I"/usr/local/Cellar/tesseract/5.0.1/include" -I"/usr/local/Cellar/leptonica/1.82.0/include"' cargo build --release
-      - name: Zip
+      - name: Move and Zip
         run: | 
-          tar -czf noname-macos.tar.gz target/release/noname
+          mv target/release/noname noname
+          tar -czf noname-macos.tar.gz noname
       - name: SHA256
         run: |
           shasum -a 256 noname-macos.tar.gz
