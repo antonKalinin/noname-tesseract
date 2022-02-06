@@ -4,16 +4,23 @@
 
 ![image](https://user-images.githubusercontent.com/3993255/151440536-da12dc0d-635b-4b65-9347-8d161fd2e015.png)
 
-### Status
+### This is MVP 🧨
 
-MVP
+## Installation
 
-### ToDos
+#### MacOS
+
+```
+brew tap antonKalinin/noname
+brew install noname
+```
+
+## ToDos
 
 - [ ] Resolve platform specific scale factor
 - [ ] Providing help via --help or -h flag
 - [ ] Scrolling for full screen screenshots
-- [ ] Packaging and installation instructions
+- [x] Packaging and installation instructions
 - [ ] Entity name recognition with BERT via --suggest or -s flag
 
 ## Deployment
