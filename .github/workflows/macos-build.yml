@@ -17,13 +17,12 @@ jobs:
       - name: Build
         run: |
           PATH="/usr/local/opt/llvm/bin:$PATH" BINDGEN_EXTRA_CLANG_ARGS='-I"/usr/local/Cellar/tesseract/5.0.1/include" -I"/usr/local/Cellar/leptonica/1.82.0/include"' cargo build --release
-      - name: Move and Zip
+      - name: Zip
         run: | 
-          mv target/release/noname noname-macos64
-          tar -czf noname-macos64.tar.gz noname-macos64
+          tar -czf noname-macos.tar.gz target/release/noname
       - name: SHA256
         run: |
-          shasum -a 256 noname-macos64.tar.gz
+          shasum -a 256 noname-macos.tar.gz
       - name: Upload to release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -33,7 +32,7 @@ jobs:
             -sSL \
             -XPOST \
             -H "Authorization: token $GITHUB_TOKEN" \
-            -H "Content-Length: $(stat -f%z noname-macos64.tar.gz)" \
+            -H "Content-Length: $(stat -f%z noname-macos.tar.gz)" \
             -H "Content-Type: application/octet-stream" \
-            --upload-file "noname-macos64.tar.gz" \
-            "https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(jq --raw-output '.release.id' $GITHUB_EVENT_PATH)/assets?name=noname-macos64.tar.gz"
+            --upload-file "noname-macos.tar.gz" \
+            "https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(jq --raw-output '.release.id' $GITHUB_EVENT_PATH)/assets?name=noname-macos.tar.gz"
