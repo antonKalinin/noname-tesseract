@@ -1,6 +1,6 @@
 # noname
 
-✨ **noname** is a CLI tool that makes it easy to remove PII from screenshots without breaking a flow ✨
+✨ **noname** is a CLI tool to remove personally identifiable information from screenshots ✨
 
 ![image](https://user-images.githubusercontent.com/3993255/151440536-da12dc0d-635b-4b65-9347-8d161fd2e015.png)
 

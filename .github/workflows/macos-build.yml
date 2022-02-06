@@ -11,20 +11,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Try to switch to brew llvm
-        run: |
-          echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> /Users/runner/.bash_profile
-          export LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
-          export CPPFLAGS="-I/usr/local/opt/llvm/include"
-          source /Users/runner/.bash_profile
       - name: Install tesseract and leptonica
         run: |
           brew install tesseract leptonica
       - name: Build
         run: |
           PATH="/usr/local/opt/llvm/bin:$PATH" BINDGEN_EXTRA_CLANG_ARGS='-I"/usr/local/Cellar/tesseract/5.0.1/include" -I"/usr/local/Cellar/leptonica/1.82.0/include"' cargo build --release
-      - name: Rename binary
-        run: mv target/release/noname noname-macos64
+      - name: Move and Zip
+        run: | 
+          mv target/release/noname noname-macos64
+          tar -czf noname-macos64.tar.gz noname-macos64
+      - name: SHA256
+        run: |
+          shasum -a 256 noname-macos64.tar.gz
       - name: Upload to release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -34,7 +33,7 @@ jobs:
             -sSL \
             -XPOST \
             -H "Authorization: token $GITHUB_TOKEN" \
-            -H "Content-Length: $(stat -f%z noname-macos64)" \
+            -H "Content-Length: $(stat -f%z noname-macos64.tar.gz)" \
             -H "Content-Type: application/octet-stream" \
-            --upload-file "noname-macos64" \
-            "https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(jq --raw-output '.release.id' $GITHUB_EVENT_PATH)/assets?name=noname-macos64"
+            --upload-file "noname-macos64.tar.gz" \
+            "https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(jq --raw-output '.release.id' $GITHUB_EVENT_PATH)/assets?name=noname-macos64.tar.gz"
