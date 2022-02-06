@@ -21,10 +21,8 @@ jobs:
         run: |
           brew install tesseract leptonica
       - name: Build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --release
+        run: |
+          PATH="/usr/local/opt/llvm/bin:$PATH" BINDGEN_EXTRA_CLANG_ARGS='-I"/usr/local/Cellar/tesseract/5.0.1/include" -I"/usr/local/Cellar/leptonica/1.82.0/include"' cargo build --release
       - name: Rename binary
         run: mv target/release/noname noname-macos64
       - name: Upload to release
