@@ -4,6 +4,7 @@ mod systems;
 mod utils;
 
 use bevy::prelude::*;
+use bevy::window::WindowResizeConstraints;
 use bevy_prototype_lyon::prelude::*;
 use std::process;
 
@@ -14,7 +15,7 @@ fn main() {
     let image = match utils::get_clipboard_image() {
         Some(image) => image,
         None => {
-            println!("Could not get image from clipboard 😬");
+            println!("No image in clipboard. Nothing to do for me 🤓");
             process::exit(1);
         }
     };
@@ -27,6 +28,11 @@ fn main() {
         title: "🙈".to_string(),
         width: screen_width,
         height: screen_height,
+        resize_constraints: WindowResizeConstraints {
+            min_width: 1.,
+            min_height: 1.,
+            ..Default::default()
+        },
         decorations: false,
         transparent: true,
         ..Default::default()
