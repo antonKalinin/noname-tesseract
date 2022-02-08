@@ -14,6 +14,10 @@ jobs:
       - name: Install tesseract and leptonica
         run: |
           brew install tesseract leptonica
+      - name: Get version
+        id: get_version
+        run: | 
+          echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
       - name: Build
         run: |
           PATH="/usr/local/opt/llvm/bin:$PATH" BINDGEN_EXTRA_CLANG_ARGS='-I"/usr/local/Cellar/tesseract/5.0.1/include" -I"/usr/local/Cellar/leptonica/1.82.0/include"' cargo build --release
@@ -21,9 +25,10 @@ jobs:
         run: | 
           mv target/release/noname noname
           tar -czf noname-macos.tar.gz noname
-      - name: SHA256
+      - name: Get SHA256
+        id: get_sha256
         run: |
-          shasum -a 256 noname-macos.tar.gz
+          echo ::set-output name=SHA256::$(shasum -a 256 noname-macos.tar.gz)
       - name: Upload to release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -37,3 +42,13 @@ jobs:
             -H "Content-Type: application/octet-stream" \
             --upload-file "noname-macos.tar.gz" \
             "https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(jq --raw-output '.release.id' $GITHUB_EVENT_PATH)/assets?name=noname-macos.tar.gz"
+      - name: Notify Homebrew repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl \
+            -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/antonKalinin/homebrew-noname/dispatches \
+            -d '{"event_type":"new_release", "client_payload": {"sha256": "${{ steps.get_sha256.outputs.SHA256", "version": "${{ steps.get_version.outputs.VERSION }}" }}'
