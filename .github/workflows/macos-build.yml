@@ -51,4 +51,4 @@ jobs:
             -H "Authorization: token $GITHUB_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/antonKalinin/homebrew-noname/dispatches \
-            -d '{"event_type":"new_release", "client_payload": {"sha256": "${{ steps.get_sha256.outputs.SHA256", "version": "${{ steps.get_version.outputs.VERSION }}" }}'
+            -d '{"event_type":"new_release", "client_payload": {"sha256": "${{ steps.get_sha256.outputs.SHA256 }}", "version": "${{ steps.get_version.outputs.VERSION }}" }}'
