@@ -6,7 +6,6 @@ on:
 
 permissions:
   contents: write
-  metadata: read
 
 jobs:
   release:
