@@ -4,7 +4,7 @@ edition = "2021"
 license-file = "LICENSE"
 name = "noname"
 repository = "https://github.com/antonKalinin/noname/"
-version = "0.1.17"
+version = "0.1.18"
 
 [dependencies]
 arboard = "2.0.0"
