@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: |
           PATH="/usr/local/opt/llvm/bin:$PATH" BINDGEN_EXTRA_CLANG_ARGS='-I"/usr/local/Cellar/tesseract/5.0.1/include" -I"/usr/local/Cellar/leptonica/1.82.0/include"' cargo build --release
-      - name: Move and Zip
+      - name: Zip the build
         run: | 
           mv target/release/noname noname
           tar -czf noname-macos.tar.gz noname
@@ -32,7 +32,7 @@ jobs:
         id: get_sha256
         run: |
           echo ::set-output name=SHA256::$(shasum -a 256 noname-macos.tar.gz)
-      - name: Upload to release
+      - name: Upload zip to release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -45,7 +45,7 @@ jobs:
             -H "Content-Type: application/octet-stream" \
             --upload-file "noname-macos.tar.gz" \
             "https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$(jq --raw-output '.release.id' $GITHUB_EVENT_PATH)/assets?name=noname-macos.tar.gz"
-      - name: Notify Homebrew repo
+      - name: Send release info to homebrew repo
         env:
           RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         run: |
