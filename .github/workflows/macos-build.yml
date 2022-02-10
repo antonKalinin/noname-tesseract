@@ -17,10 +17,6 @@ jobs:
       - name: Install tesseract and leptonica
         run: |
           brew install tesseract leptonica
-      - name: Get version
-        id: get_version
-        run: | 
-          echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
       - name: Build
         run: |
           PATH="/usr/local/opt/llvm/bin:$PATH" BINDGEN_EXTRA_CLANG_ARGS='-I"/usr/local/Cellar/tesseract/5.0.1/include" -I"/usr/local/Cellar/leptonica/1.82.0/include"' cargo build --release
@@ -31,7 +27,11 @@ jobs:
       - name: Get SHA256
         id: get_sha256
         run: |
-          echo ::set-output name=SHA256::$(shasum -a 256 noname-macos.tar.gz)
+          echo ::set-output name=SHA256::$(shasum -a 256 noname-macos.tar.gz | cut -d ' ' -f 1)
+      - name: Get version from tag
+        id: get_version
+        run: | 
+          echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3 | cut -c2-)
       - name: Upload zip to release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
