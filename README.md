@@ -1,10 +1,10 @@
 # noname
 
-✨ **noname** is a CLI tool to remove personally identifiable information from screenshots ✨
+✨ **noname** is a CLI tool to help remove personally identifiable information from screenshots ✨
 
 ![image](https://user-images.githubusercontent.com/3993255/151440536-da12dc0d-635b-4b65-9347-8d161fd2e015.png)
 
-### This is MVP 🧨
+**Be aware: noname is only MVP 🧨 please check ToDo section**
 
 ## Installation
 
@@ -17,16 +17,15 @@ brew install noname
 
 ## ToDos
 
-- [ ] Resolve platform specific scale factor
-- [ ] Providing help via --help or -h flag
-- [ ] Scrolling for full screen screenshots
 - [x] Packaging and installation instructions
-- [ ] Entity name recognition with BERT via --suggest or -s flag
+- [ ] Dynamically resolve platform specific scale factor
+- [ ] Providing help via --help or -h flag
+- [ ] Scrolling for full size screenshots
 
-## Deployment
+### Deployment
 
 To create production release:
 
 1. Run `git checkout master && git pull`.
-1. Run `cargo release --execute patch`. [create-release.yaml](.github/workflows/create-release.yaml) will create a new GitHub release draft with information about new PRs in the description.
-1. Go to https://github.com/antonKalinin/noname/releases and publish the newly created draft release.
+2. Run `cargo release --execute patch`. [create-release.yaml](.github/workflows/create-release.yaml) will create a new GitHub release draft with information about changes in the description.
+3. Go to https://github.com/antonKalinin/noname/releases and publish the newly created draft release.

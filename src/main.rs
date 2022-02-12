@@ -38,16 +38,21 @@ fn main() {
         ..Default::default()
     };
 
+    let log_settings = bevy::log::LogSettings {
+        level: bevy::log::Level::INFO,
+        filter: "bevy_render=error".to_string(),
+    };
+
     let mut app = App::new();
 
     app.insert_resource(window)
+        .insert_resource(log_settings)
         .insert_resource(image)
-        .insert_resource(ClearColor(Color::rgb(1.0, 1.0, 1.0)))
         .add_plugins(DefaultPlugins)
         .add_plugin(ShapePlugin)
         .add_startup_system(setup)
         .add_system(keyboard)
         .add_system(mouse)
-        .add_system(ui)
+        .add_system_to_stage(CoreStage::PostUpdate, ui)
         .run();
 }
