@@ -7,7 +7,7 @@ use regex::Regex;
 use std::process;
 
 use crate::components::{RectSize, TextRect};
-use crate::constants::{IMAGE_DPI, SCALE_FACTOR};
+use crate::constants::IMAGE_DPI;
 
 pub fn setup(
     mut commands: Commands,
@@ -16,6 +16,7 @@ pub fn setup(
     mut image_assets: ResMut<Assets<Image>>,
 ) {
     let window = windows.get_primary().unwrap();
+    let scale_factor = window.scale_factor() as f32;
     let text_re = Regex::new(r"\w+").unwrap();
 
     let image = &*image_res;
@@ -52,10 +53,10 @@ pub fn setup(
 
     for bbox in &boxes.unwrap() {
         let bounding_box = bbox.as_ref();
-        let x = (bounding_box.x as f32) / SCALE_FACTOR - (window.width() / 2.0);
-        let y = (window.height() / 2.0) - (bounding_box.y as f32) / SCALE_FACTOR;
-        let width = (bounding_box.w as f32) / SCALE_FACTOR;
-        let height = (bounding_box.h as f32) / SCALE_FACTOR;
+        let x = (bounding_box.x as f32) / scale_factor - (window.width() / 2.0);
+        let y = (window.height() / 2.0) - (bounding_box.y as f32) / scale_factor;
+        let width = (bounding_box.w as f32) / scale_factor;
+        let height = (bounding_box.h as f32) / scale_factor;
 
         if width == window.width() || height == window.height() {
             continue;

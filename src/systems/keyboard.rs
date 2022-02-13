@@ -8,7 +8,6 @@ use std::process;
 use std::{borrow::Cow, io::Read};
 
 use crate::components::{RectSize, TextRect};
-use crate::constants::SCALE_FACTOR;
 use crate::utils;
 
 pub fn keyboard(
@@ -31,13 +30,14 @@ pub fn keyboard(
                 continue;
             }
 
+            let scale_factor = window.scale_factor() as f32;
             let (rect_x, rect_y, _) = <(f32, f32, f32)>::from(transform.translation);
             let (x, y) = <(f32, f32)>::from(utils::rect_xy_to_screenshot_xy(
                 Vec2::new(rect_x, rect_y),
                 window,
             ));
-            let width = (size.width * SCALE_FACTOR) as u32;
-            let height = (size.height * SCALE_FACTOR) as u32;
+            let width = (size.width * scale_factor) as u32;
+            let height = (size.height * scale_factor) as u32;
             let overlay = ImageBuffer::from_pixel(width, height, Rgba([0, 0, 0, 255]));
 
             // For the future: blur instead of overlay

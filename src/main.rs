@@ -39,8 +39,8 @@ fn main() {
     };
 
     let log_settings = bevy::log::LogSettings {
-        level: bevy::log::Level::INFO,
-        filter: "bevy_render=error".to_string(),
+        level: bevy::log::Level::ERROR,
+        ..Default::default()
     };
 
     let mut app = App::new();

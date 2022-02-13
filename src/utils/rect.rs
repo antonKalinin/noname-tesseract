@@ -1,4 +1,3 @@
-use crate::constants::SCALE_FACTOR;
 use bevy::prelude::*;
 
 pub fn is_point_in_rect(point: Vec2, rect_xy: Vec2, rect_wh: Vec2) -> bool {
@@ -17,8 +16,10 @@ pub fn rect_xy_to_screen_xy(rect_xy: Vec2, window: &Window) -> Vec2 {
 }
 
 pub fn rect_xy_to_screenshot_xy(rect_xy: Vec2, window: &Window) -> Vec2 {
-    let x = (rect_xy.x + (window.width() / 2.0)) * SCALE_FACTOR;
-    let y = ((window.height() / 2.0) - rect_xy.y) * SCALE_FACTOR;
+    let scale_factor = window.scale_factor() as f32;
+
+    let x = (rect_xy.x + (window.width() / 2.0)) * scale_factor;
+    let y = ((window.height() / 2.0) - rect_xy.y) * scale_factor;
 
     Vec2::new(x, y)
 }
